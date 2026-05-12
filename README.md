@@ -1,2 +1,2 @@
 # nexora-authflow-infra
-Infrastructure-as-Code repository for Nexora AuthFlow
+Terraform infrastructure repository for Nexora AuthFlow — a cloud-native identity and access management platform on Azure.
