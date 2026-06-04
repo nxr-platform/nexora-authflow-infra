@@ -1,36 +1,48 @@
-# nexora-authflow-infra
+## Dependencies
 
-Environment infrastructure for AuthFlow — dev, staging, and prod.
+Reads shared network outputs via Terraform remote state:
 
-## Structure
-
-```
-environments/
-├── dev/
-│   ├── security/   Key Vault, managed identities
-│   ├── data/       Cosmos DB, Redis, Service Bus
-│   └── aks/        AKS cluster
-├── staging/
-│   ├── security/
-│   ├── data/
-│   └── aks/
-└── prod/
-    ├── security/
-    ├── data/
-    └── aks/
+```hcl
+data "terraform_remote_state" "shared" {
+  backend = "azurerm"
+  config = {
+    key = "authflow/shared/shared.tfstate"
+  }
+}
 ```
 
-## Deployment Order (per environment)
+## Pipeline
 
-```
-1. security/   (Key Vault — required by data and aks)
-2. data/       (Cosmos, Redis, Service Bus)
-3. aks/        (AKS cluster — depends on network, keyvault, data)
-```
+| Trigger | Action |
+|---------|--------|
+| PR → main | terraform plan for dev + staging |
+| Merge → main | terraform apply to dev (automatic) |
+| Manual trigger | terraform apply to staging |
+
+## Environment Variables (injected by pipeline)
+
+| Variable | Values |
+|----------|--------|
+| environment | dev, staging, prod |
+| location | uksouth, ukwest, westeurope |
+
+## State
+
+| Environment | State Key |
+|-------------|-----------|
+| dev | authflow/environments/dev/terraform.tfstate |
+| staging | authflow/environments/staging/terraform.tfstate |
+| prod | authflow/environments/prod/terraform.tfstate |
 
 ## Credentials
 
 | Environment | Service Principal | Subscription |
 |-------------|-------------------|--------------|
-| dev/staging | sp-nonprod | nonprod subscription |
-| prod | sp-prod | prod subscription |
+| dev + staging | nxr-authflow-sp-nonprod | nexora-authflow-nonprod |
+| prod | nxr-authflow-sp-prod | nexora-authflow-prod |
+
+## Module Sources
+
+| Module | Version |
+|--------|---------|
+| resource-group | v0.1.3 |

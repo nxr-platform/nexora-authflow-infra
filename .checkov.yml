@@ -1,0 +1,5 @@
+soft-fail: false
+framework:
+  - terraform
+skip-check:
+  - CKV_TF_1  # Semver tags used instead of commit hashes
