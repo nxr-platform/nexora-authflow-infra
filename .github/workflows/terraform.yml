@@ -64,17 +64,14 @@ jobs:
           sarif_file: checkov-results.sarif
           category: checkov-infra
 
-  plan:
+  plan-dev:
     if: github.event_name == 'pull_request' || github.event_name == 'push'
-    strategy:
-      matrix:
-        environment: [dev]
     uses: nxr-platform/nexora-platform-workflows/.github/workflows/terraform-plan.yml@main
     with:
-      environment: ${{ matrix.environment }}
+      environment: "dev"
       location: "uksouth"
-      state_key: "authflow/environments/${{ matrix.environment }}/terraform.tfstate"
-      layer_name: "🔧 ${{ matrix.environment }}"
+      state_key: "authflow/environments/dev/terraform.tfstate"
+      layer_name: "🔧 dev"
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
@@ -84,16 +81,15 @@ jobs:
       TF_STATE_CONTAINER: ${{ secrets.TF_STATE_CONTAINER }}
       MODULES_GITHUB_TOKEN: ${{ secrets.MODULES_GITHUB_TOKEN }}
 
-
   dev-apply:
-    needs: [plan]
+    needs: [plan-dev]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     uses: nxr-platform/nexora-platform-workflows/.github/workflows/terraform-apply.yml@main
     with:
       environment: "dev"
       location: "uksouth"
       state_key: "authflow/environments/dev/terraform.tfstate"
-      artifact_name: ${{ needs.plan.outputs.artifact-name }}
+      artifact_name: ${{ needs.plan-dev.outputs.artifact-name }}
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
@@ -103,7 +99,7 @@ jobs:
       TF_STATE_CONTAINER: ${{ secrets.TF_STATE_CONTAINER }}
       MODULES_GITHUB_TOKEN: ${{ secrets.MODULES_GITHUB_TOKEN }}
 
-  staging-plan:
+  plan-staging:
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging'
     uses: nxr-platform/nexora-platform-workflows/.github/workflows/terraform-plan.yml@main
     with:
@@ -120,18 +116,16 @@ jobs:
       TF_STATE_CONTAINER: ${{ secrets.TF_STATE_CONTAINER }}
       MODULES_GITHUB_TOKEN: ${{ secrets.MODULES_GITHUB_TOKEN }}
 
-
-
   staging-apply:
-    needs: [staging-plan]
+    needs: [plan-staging]
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging'
     uses: nxr-platform/nexora-platform-workflows/.github/workflows/terraform-apply.yml@main
     with:
       environment: "staging"
       location: "uksouth"
       state_key: "authflow/environments/staging/terraform.tfstate"
-      artifact_name: ${{ needs.staging-plan.outputs.artifact-name }}
-    secrets: 
+      artifact_name: ${{ needs.plan-staging.outputs.artifact-name }}
+    secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
