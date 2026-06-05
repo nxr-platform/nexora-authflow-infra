@@ -34,7 +34,7 @@ module "resource_group" {
 }
 
 module "keyvault" {
-  source = "git::https://github.com/nxr-platform/nexora-authflow-terraform-modules.git//modules/keyvault?ref=v0.7.0"
+  source = "git::https://github.com/nxr-platform/nexora-authflow-terraform-modules.git//modules/keyvault?ref=v0.7.1"
 
   resource_group_name           = module.resource_group.name
   company                       = local.company
