@@ -11,7 +11,7 @@ locals {
 
   resource_group_name = "${local.company}-${local.domain}-${local.component}-rg-${var.environment}-${local.region_short[var.location]}"
 
-  common_tags   = merge(var.tags, {
+  common_tags = merge(var.tags, {
     product     = "authflow"
     managed-by  = "terraform"
     environment = var.environment
