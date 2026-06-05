@@ -71,13 +71,13 @@ jobs:
       state_key: "authflow/environments/${{ matrix.environment }}/terraform.tfstate"
       layer_name: "🔧 ${{ matrix.environment }}"
     secrets:
-        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-        AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        TF_STATE_RESOURCE_GROUP: ${{ secrets.TF_STATE_RESOURCE_GROUP }}
-        TF_STATE_STORAGE_ACCOUNT: ${{ secrets.TF_STATE_STORAGE_ACCOUNT }}
-        TF_STATE_CONTAINER: ${{ secrets.TF_STATE_CONTAINER }}
-        MODULES_GITHUB_TOKEN: ${{ secrets.MODULES_GITHUB_TOKEN }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      TF_STATE_RESOURCE_GROUP: ${{ secrets.TF_STATE_RESOURCE_GROUP }}
+      TF_STATE_STORAGE_ACCOUNT: ${{ secrets.TF_STATE_STORAGE_ACCOUNT }}
+      TF_STATE_CONTAINER: ${{ secrets.TF_STATE_CONTAINER }}
+      MODULES_GITHUB_TOKEN: ${{ secrets.MODULES_GITHUB_TOKEN }}
 
 
   dev-apply:
@@ -90,13 +90,13 @@ jobs:
       state_key: "authflow/environments/dev/terraform.tfstate"
       artifact_name: ${{ needs.plan.outputs.artifact-name }}
     secrets:
-        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-        AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        TF_STATE_RESOURCE_GROUP: ${{ secrets.TF_STATE_RESOURCE_GROUP }}
-        TF_STATE_STORAGE_ACCOUNT: ${{ secrets.TF_STATE_STORAGE_ACCOUNT }}
-        TF_STATE_CONTAINER: ${{ secrets.TF_STATE_CONTAINER }}
-        MODULES_GITHUB_TOKEN: ${{ secrets.MODULES_GITHUB_TOKEN }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      TF_STATE_RESOURCE_GROUP: ${{ secrets.TF_STATE_RESOURCE_GROUP }}
+      TF_STATE_STORAGE_ACCOUNT: ${{ secrets.TF_STATE_STORAGE_ACCOUNT }}
+      TF_STATE_CONTAINER: ${{ secrets.TF_STATE_CONTAINER }}
+      MODULES_GITHUB_TOKEN: ${{ secrets.MODULES_GITHUB_TOKEN }}
 
   staging-apply:
     needs: [plan]
@@ -108,10 +108,10 @@ jobs:
       state_key: "authflow/environments/staging/terraform.tfstate"
       artifact_name: ${{ needs.plan.outputs.artifact-name }}
     secrets: 
-        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-        AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        TF_STATE_RESOURCE_GROUP: ${{ secrets.TF_STATE_RESOURCE_GROUP }}
-        TF_STATE_STORAGE_ACCOUNT: ${{ secrets.TF_STATE_STORAGE_ACCOUNT }}
-        TF_STATE_CONTAINER: ${{ secrets.TF_STATE_CONTAINER }}
-        MODULES_GITHUB_TOKEN: ${{ secrets.MODULES_GITHUB_TOKEN }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      TF_STATE_RESOURCE_GROUP: ${{ secrets.TF_STATE_RESOURCE_GROUP }}
+      TF_STATE_STORAGE_ACCOUNT: ${{ secrets.TF_STATE_STORAGE_ACCOUNT }}
+      TF_STATE_CONTAINER: ${{ secrets.TF_STATE_CONTAINER }}
+      MODULES_GITHUB_TOKEN: ${{ secrets.MODULES_GITHUB_TOKEN }}
