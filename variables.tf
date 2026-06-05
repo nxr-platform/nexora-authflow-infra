@@ -49,9 +49,3 @@ variable "public_network_access_enabled" {
   type        = bool
   default     = false
 }
-
-variable "purge_protection_enabled" {
-  description = "Whether to enable purge protection on the Key Vault"
-  type        = bool
-  default     = true
-}

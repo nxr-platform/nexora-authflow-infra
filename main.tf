@@ -47,7 +47,6 @@ module "keyvault" {
   sku_name                      = var.sku_name
   tenant_id                     = data.azurerm_client_config.current.tenant_id
   public_network_access_enabled = var.public_network_access_enabled
-  purge_protection_enabled      = var.purge_protection_enabled
   tags                          = local.common_tags
 }
 
