@@ -1,0 +1,71 @@
+name: '🚀 Terraform — AuthFlow Environment Infrastructure'
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to apply"
+        type: choice
+        options:
+          - staging
+        required: true
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - '.terraform-version'
+      - '.tflint.hcl'
+      - '.checkov.yaml'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - '.terraform-version'
+      - '.tflint.hcl'
+      - '.checkov.yaml'
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+  security-events: write
+
+jobs:
+  plan:
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
+    strategy:
+      matrix:
+        environment: [dev, staging]
+    uses: nxr-platform/nexora-platform-workflows/.github/workflows/terraform-plan.yml@main
+    with:
+      environment: ${{ matrix.environment }}
+      location: "uksouth"
+      state_key: "authflow/environments/${{ matrix.environment }}/terraform.tfstate"
+      layer_name: "🔧 ${{ matrix.environment }}"
+    secrets: inherit
+
+  dev-apply:
+    needs: [plan]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    uses: nxr-platform/nexora-platform-workflows/.github/workflows/terraform-apply.yml@main
+    with:
+      environment: "dev"
+      location: "uksouth"
+      state_key: "authflow/environments/dev/terraform.tfstate"
+      artifact_name: ${{ needs.plan.outputs.artifact-name }}
+    secrets: inherit
+
+  staging-apply:
+    needs: [plan]
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging'
+    uses: nxr-platform/nexora-platform-workflows/.github/workflows/terraform-apply.yml@main
+    with:
+      environment: "staging"
+      location: "uksouth"
+      state_key: "authflow/environments/staging/terraform.tfstate"
+      artifact_name: ${{ needs.plan.outputs.artifact-name }}
+    secrets: inherit
