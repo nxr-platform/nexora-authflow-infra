@@ -9,6 +9,7 @@ on:
         options:
           - staging
         required: true
+
   push:
     branches:
       - main
@@ -27,6 +28,10 @@ on:
       - '.terraform-version'
       - '.tflint.hcl'
       - '.checkov.yaml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   id-token: write
