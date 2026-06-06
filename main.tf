@@ -70,6 +70,6 @@ module "acr" {
   admin_enabled                 = var.acr_admin_enabled
   sku                           = var.acr_sku
   public_network_access_enabled = var.acr_public_network_access_enabled
-  geo_replication               = var.acr_geo_replication
+  georeplication                = var.acr_geo_replication
   tags                          = local.common_tags
 }
