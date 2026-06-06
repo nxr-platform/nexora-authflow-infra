@@ -15,7 +15,7 @@ locals {
 data "azurerm_client_config" "current" {}
 
 module "naming" {
-  source = "git::https://github.com/nxr-platform/nexora-authflow-terraform-modules.git//modules/naming?ref=v0.0.0"
+  source = "git::https://github.com/nxr-platform/nexora-authflow-terraform-modules.git//modules/naming?ref=v0.0.1"
 
   company     = local.company
   domain      = local.domain
@@ -44,4 +44,13 @@ module "keyvault" {
   sku_name                      = var.sku_name
   public_network_access_enabled = var.public_network_access_enabled
   tags                          = local.common_tags
+}
+
+module "managed_identity" {
+  source = "git::https://github.com/nxr-platform/nexora-authflow-terraform-modules.git//modules/managed-identity?ref=v0.8.0"
+
+  name                = module.naming.names.managed_identity
+  resource_group_name = module.resource_group.name
+  location            = var.location
+  tags                = local.common_tags
 }
