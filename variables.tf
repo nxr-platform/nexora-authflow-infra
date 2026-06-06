@@ -49,3 +49,30 @@ variable "public_network_access_enabled" {
   type        = bool
   default     = false
 }
+
+variable "acr_sku" {
+  description = "SKU for the Container Registry (Basic, Standard, Premium)"
+  type        = string
+  default     = "Basic"
+}
+
+variable "acr_admin_enabled" {
+  description = "Whether to enable admin access for the Container Registry"
+  type        = bool
+  default     = false
+}
+
+variable "acr_public_network_access_enabled" {
+  description = "Whether to enable public network access to the Container Registry"
+  type        = bool
+  default     = false
+}
+
+variable "acr_georeplications" {
+  description = "List of regions to geo-replicate the registry. Premium SKU only."
+  type = list(object({
+    location                = string
+    zone_redundancy_enabled = optional(bool, false)
+  }))
+  default = []
+}

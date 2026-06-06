@@ -60,3 +60,16 @@ resource "azurerm_role_assignment" "mi_keyvault" {
   role_definition_name = "Key Vault Secrets User"
   principal_id         = module.managed_identity.principal_id
 }
+
+module "acr" {
+  source = "git::https://github.com/nxr-platform/nexora-authflow-terraform-modules.git//modules/acr?ref=v0.9.0"
+
+  name                          = module.naming.names.acr
+  resource_group_name           = module.resource_group.name
+  location                      = var.location
+  admin_enabled                 = var.acr_admin_enabled
+  sku                           = var.acr_sku
+  public_network_access_enabled = var.acr_public_network_access_enabled
+  geo_replication               = var.acr_geo_replication
+  tags                          = local.common_tags
+}
