@@ -54,3 +54,9 @@ module "managed_identity" {
   location            = var.location
   tags                = local.common_tags
 }
+
+resource "azurerm_role_assignment" "mi_keyvault" {
+  scope                = module.keyvault.id
+  role_definition_name = "Key Vault Secrets User"
+  principal_id         = module.managed_identity.principal_id
+}
