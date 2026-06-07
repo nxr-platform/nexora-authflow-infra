@@ -68,6 +68,6 @@ module "log-analytics" {
   resource_group_name = module.resource_group.name
   location            = var.location
   sku                 = var.log_analytics_sku
-  retention_in_days  = var.log_analytics_retention_in_days
+  retention_in_days   = var.log_analytics_retention_in_days
   tags                = local.common_tags
 }
