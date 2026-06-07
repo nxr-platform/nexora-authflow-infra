@@ -60,3 +60,14 @@ resource "azurerm_role_assignment" "mi_keyvault" {
   role_definition_name = "Key Vault Secrets User"
   principal_id         = module.managed_identity.principal_id
 }
+
+module "log-analytics" {
+  source = "git::https://github.com/nxr-platform/nexora-authflow-terraform-modules.git//modules/log-analytics?ref=v0.9.1"
+
+  name                = module.naming.names.log_analytics
+  resource_group_name = module.resource_group.name
+  location            = var.location
+  sku                 = var.log_analytics_sku
+  retention_in_days  = var.log_analytics_retention_in_days
+  tags                = local.common_tags
+}
