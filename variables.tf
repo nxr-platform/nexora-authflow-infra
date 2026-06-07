@@ -49,3 +49,15 @@ variable "public_network_access_enabled" {
   type        = bool
   default     = false
 }
+
+variable "log_analytics_sku" {
+  description = "SKU for the Log Analytics workspace"
+  type        = string
+  default     = "PerGB2018"
+}
+
+variable "log_analytics_retention_in_days" {
+  description = "Number of days to retain log data"
+  type        = number
+  default     = 30
+}
