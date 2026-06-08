@@ -71,7 +71,7 @@ jobs:
       environment: "dev"
       location: "uksouth"
       state_key: "authflow/environments/dev/terraform.tfstate"
-      layer_name: "🔧 dev"
+      layer_name: "🔍 Plan · Dev"
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
@@ -90,6 +90,8 @@ jobs:
       location: "uksouth"
       state_key: "authflow/environments/dev/terraform.tfstate"
       artifact_name: ${{ needs.plan-dev.outputs.artifact-name }}
+      layer_name: "🚀 Deploy · Dev"
+      
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
@@ -106,7 +108,7 @@ jobs:
       environment: "staging"
       location: "uksouth"
       state_key: "authflow/environments/staging/terraform.tfstate"
-      layer_name: "🔧 staging"
+      layer_name: "🔍 Plan · Staging"
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
@@ -125,6 +127,8 @@ jobs:
       location: "uksouth"
       state_key: "authflow/environments/staging/terraform.tfstate"
       artifact_name: ${{ needs.plan-staging.outputs.artifact-name }}
+      layer_name: "🚀 Deploy · Staging"
+      
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
